@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pet Zodiac — Your Pet's Cosmic Personality Profile</title>
+  <meta name="description" content="Discover your pet's zodiac personality. Free cosmic profile — why they do what they do, explained by the stars." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #070C10;
+      --bg-2: #0C1219;
+      --teal: #3ECFCF;
+      --teal-lt: #7EEAEA;
+      --teal-dim: rgba(62,207,207,0.12);
+      --rose: #FF7B7B;
+      --rose-lt: #FFB4B4;
+      --white: #EFF5F5;
+      --muted: rgba(239,245,245,0.45);
+      --border: rgba(62,207,207,0.15);
+    }
+
+    html { font-size: 16px; scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── STAR FIELD ── */
+    .stars {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .stars::before,
+    .stars::after {
+      content: '';
+      position: absolute;
+      inset: -50%;
+      background-image:
+        radial-gradient(1px 1px at 8% 22%, rgba(62,207,207,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 28% 68%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 48% 15%, rgba(255,180,180,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 68% 78%, rgba(62,207,207,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 88% 42%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 18% 55%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 58% 30%, rgba(62,207,207,0.35) 0%, transparent 100%),
+        radial-gradient(1px 1px at 38% 85%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 78% 18%, rgba(255,180,180,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 92% 65%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 5% 80%, rgba(62,207,207,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 72% 50%, rgba(255,255,255,0.3) 0%, transparent 100%);
+      background-size: 220px 220px;
+      animation: float 80s linear infinite;
+    }
+    .stars::after {
+      background-size: 320px 320px;
+      animation-duration: 120s;
+      animation-direction: reverse;
+      opacity: 0.5;
+    }
+    @keyframes float {
+      from { transform: translateY(0); }
+      to { transform: translateY(33.33%); }
+    }
+
+    /* ── GLOW ── */
+    .glow-teal {
+      position: fixed;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(62,207,207,0.07) 0%, transparent 70%);
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+      z-index: 0;
+      animation: glow 9s ease-in-out infinite;
+    }
+    @keyframes glow {
+      0%, 100% { opacity: 0.7; }
+      50% { opacity: 1; }
+    }
+
+    /* ── LAYOUT ── */
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: relative;
+      z-index: 2;
+      padding: 28px 24px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .nav-logo {
+      font-family: 'Fraunces', serif;
+      font-weight: 300;
+      font-size: 15px;
+      letter-spacing: 0.15em;
+      color: var(--teal-lt);
+      opacity: 0.85;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 80px 24px 60px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 28px;
+      opacity: 0.9;
+    }
+
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-weight: 300;
+      font-size: clamp(44px, 11vw, 68px);
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+      color: var(--white);
+      margin-bottom: 24px;
+    }
+    h1 em {
+      font-style: italic;
+      color: var(--teal-lt);
+    }
+    h1 .highlight {
+      color: var(--rose-lt);
+      font-style: italic;
+    }
+
+    .hero-sub {
+      font-size: 16px;
+      font-weight: 300;
+      line-height: 1.65;
+      color: var(--muted);
+      max-width: 340px;
+      margin: 0 auto 40px;
+    }
+    .hero-sub strong {
+      color: var(--white);
+      font-weight: 400;
+    }
+
+    /* ── PET SELECTOR ── */
+    .pet-selector {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 32px;
+    }
+    .pet-btn {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      padding: 10px 20px;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .pet-btn.active,
+    .pet-btn:hover {
+      background: var(--teal-dim);
+      border-color: rgba(62,207,207,0.4);
+      color: var(--teal-lt);
+    }
+    .pet-btn.rose.active,
+    .pet-btn.rose:hover {
+      background: rgba(255,123,123,0.08);
+      border-color: rgba(255,123,123,0.3);
+      color: var(--rose-lt);
+    }
+
+    /* ── FORM ── */
+    .capture-form {
+      width: 100%;
+      max-width: 380px;
+      margin: 0 auto;
+    }
+    .input-row {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .input-row input[type="text"],
+    .input-row input[type="email"],
+    .input-row input[type="date"] {
+      width: 100%;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 16px 18px;
+      font-size: 15px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      color: var(--white);
+      outline: none;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+      color-scheme: dark;
+    }
+    .input-row input::placeholder { color: var(--muted); }
+    .input-row input:focus { border-color: var(--teal); }
+
+    .btn-primary {
+      width: 100%;
+      background: linear-gradient(135deg, #3ECFCF 0%, #7EEAEA 50%, #3ECFCF 100%);
+      background-size: 200% 100%;
+      border: none;
+      border-radius: 6px;
+      padding: 17px 24px;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #041414;
+      cursor: pointer;
+      transition: background-position 0.4s, opacity 0.2s;
+    }
+    .btn-primary:hover {
+      background-position: 100% 0;
+      opacity: 0.9;
+    }
+
+    .form-note {
+      margin-top: 14px;
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+      opacity: 0.65;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      width: 1px;
+      height: 60px;
+      background: linear-gradient(to bottom, transparent, var(--border), transparent);
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── STATS ── */
+    .stats {
+      padding: 64px 24px;
+      position: relative;
+      z-index: 1;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    .stat {
+      text-align: center;
+      padding: 28px 12px;
+      background: rgba(62,207,207,0.04);
+      border: 1px solid var(--border);
+    }
+    .stat:first-child { border-radius: 6px 0 0 6px; }
+    .stat:last-child { border-radius: 0 6px 6px 0; }
+    .stat-num {
+      font-family: 'Fraunces', serif;
+      font-weight: 300;
+      font-size: 30px;
+      color: var(--teal-lt);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .stat-label {
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    /* ── SECTION ── */
+    .section {
+      padding: 64px 24px;
+      position: relative;
+      z-index: 1;
+    }
+    .section-label {
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--teal);
+      text-align: center;
+      margin-bottom: 36px;
+      opacity: 0.8;
+    }
+    h2 {
+      font-family: 'Fraunces', serif;
+      font-weight: 300;
+      font-size: clamp(36px, 8vw, 52px);
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    h2 em { font-style: italic; color: var(--teal-lt); }
+    h2 .r { color: var(--rose-lt); font-style: italic; }
+
+    .section-sub {
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--muted);
+      text-align: center;
+      max-width: 360px;
+      margin: 0 auto 48px;
+    }
+
+    /* ── TRAITS ── */
+    .traits {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    .trait {
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      padding: 24px 20px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+    }
+    .trait-icon {
+      font-size: 22px;
+      flex-shrink: 0;
+      width: 40px;
+      text-align: center;
+    }
+    .trait-title {
+      font-family: 'Fraunces', serif;
+      font-weight: 400;
+      font-size: 18px;
+      color: var(--white);
+      margin-bottom: 5px;
+    }
+    .trait-body {
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    /* ── SAMPLE PROFILE ── */
+    .profile-card {
+      max-width: 440px;
+      margin: 0 auto;
+      background: linear-gradient(145deg, rgba(62,207,207,0.07) 0%, rgba(7,12,16,0.95) 100%);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 32px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .profile-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--teal), transparent);
+      opacity: 0.25;
+    }
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .pet-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(62,207,207,0.2), rgba(255,123,123,0.2));
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      flex-shrink: 0;
+    }
+    .pet-name {
+      font-family: 'Fraunces', serif;
+      font-size: 22px;
+      font-weight: 300;
+      color: var(--white);
+      margin-bottom: 2px;
+    }
+    .pet-sign {
+      font-size: 13px;
+      color: var(--teal);
+      letter-spacing: 0.08em;
+    }
+    .profile-traits {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .trait-tag {
+      background: rgba(62,207,207,0.08);
+      border: 1px solid rgba(62,207,207,0.2);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 12px;
+      color: var(--teal-lt);
+      letter-spacing: 0.05em;
+    }
+    .trait-tag.rose {
+      background: rgba(255,123,123,0.08);
+      border-color: rgba(255,123,123,0.2);
+      color: var(--rose-lt);
+    }
+    .profile-insight {
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.75;
+      color: rgba(239,245,245,0.75);
+      font-style: italic;
+    }
+    .profile-compatibility {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .profile-compatibility strong {
+      color: var(--teal-lt);
+      font-weight: 400;
+    }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials {
+      padding: 64px 24px;
+      position: relative;
+      z-index: 1;
+    }
+    .testi-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    .testi {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 24px;
+    }
+    .testi-stars {
+      color: var(--teal);
+      font-size: 13px;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+    }
+    .testi-text {
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.65;
+      color: var(--white);
+      font-style: italic;
+      margin-bottom: 14px;
+    }
+    .testi-author {
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+
+    /* ── BOTTOM CTA ── */
+    .bottom-cta {
+      padding: 80px 24px 100px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .bottom-cta h2 { margin-bottom: 12px; }
+    .bottom-cta .section-sub { margin-bottom: 32px; }
+
+    /* ── PAID CTA ── */
+    .upgrade-box {
+      margin-top: 28px;
+      padding: 24px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      max-width: 380px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: left;
+    }
+    .upgrade-box .upgrade-label {
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 10px;
+    }
+    .upgrade-box h3 {
+      font-family: 'Fraunces', serif;
+      font-weight: 300;
+      font-size: 20px;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+    .upgrade-box p {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    .upgrade-box .btn-upgrade {
+      display: inline-block;
+      background: transparent;
+      border: 1px solid rgba(62,207,207,0.35);
+      border-radius: 6px;
+      padding: 12px 24px;
+      font-size: 13px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      color: var(--teal-lt);
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .upgrade-box .btn-upgrade:hover {
+      background: rgba(62,207,207,0.08);
+      border-color: rgba(62,207,207,0.6);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 32px 24px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    footer p {
+      font-size: 12px;
+      color: var(--muted);
+      opacity: 0.5;
+    }
+
+    /* ── SUCCESS ── */
+    .success-msg {
+      display: none;
+      text-align: center;
+      padding: 24px;
+      background: rgba(62,207,207,0.05);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+    .success-icon { font-size: 30px; margin-bottom: 12px; }
+    .success-msg p {
+      font-size: 15px;
+      color: var(--white);
+      line-height: 1.6;
+    }
+    .success-msg p em {
+      color: var(--teal-lt);
+      font-style: normal;
+    }
+  </style>
+</head>
+<body>
+  <div class="stars"></div>
+  <div class="glow-teal"></div>
+
+  <nav>
+    <span class="nav-logo">Paw & Stars</span>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="eyebrow">Free Pet Profile</div>
+    <h1>Your pet is a<br /><span class="highlight">Scorpio.</span><br /><em>That explains<br />everything.</em></h1>
+    <p class="hero-sub">
+      Discover your pet's complete zodiac personality. <strong>Why they steal your spot on the couch. Why they judge you silently. Why they're obsessed with that one toy.</strong> The stars know.
+    </p>
+
+    <div class="pet-selector">
+      <button class="pet-btn active">🐶 Dog</button>
+      <button class="pet-btn rose">🐱 Cat</button>
+      <button class="pet-btn">🐰 Other</button>
+    </div>
+
+    <div class="capture-form">
+      <form id="hero-form" action="https://formspree.io/f/REPLACE_WITH_FORM_ID" method="POST">
+        <div class="input-row">
+          <input type="text" name="pet_name" placeholder="Your pet's name" required />
+          <input type="date" name="pet_birthday" required title="Pet's birthday" />
+          <input type="email" name="email" placeholder="Your email address" required />
+          <button type="submit" class="btn-primary">Reveal My Pet's Sign →</button>
+        </div>
+      </form>
+      <div class="success-msg" id="hero-success">
+        <div class="success-icon">🌟</div>
+        <p>Your pet's profile is on its way. Check <em>your inbox</em> in about 2 minutes.</p>
+      </div>
+      <p class="form-note">Free. No credit card. Unsubscribe anytime.</p>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- STATS -->
+  <section class="stats">
+    <div class="stats-grid">
+      <div class="stat">
+        <div class="stat-num">38K+</div>
+        <div class="stat-label">Pets profiled</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">4.9★</div>
+        <div class="stat-label">Average rating</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">Free</div>
+        <div class="stat-label">Always</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT'S IN THE PROFILE -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-label">What you receive</div>
+      <h2>The complete<br /><em>cosmic</em> portrait.</h2>
+      <p class="section-sub">
+        More than just their sun sign. Your pet's full profile explains the behavior, the personality, and yes — why they do that weird thing.
+      </p>
+
+      <div class="traits">
+        <div class="trait">
+          <div class="trait-icon">🌟</div>
+          <div>
+            <div class="trait-title">Core personality</div>
+            <p class="trait-body">Their dominant traits, what drives them, what makes them feel safe — and what makes them absolutely feral.</p>
+          </div>
+        </div>
+        <div class="trait">
+          <div class="trait-icon">💤</div>
+          <div>
+            <div class="trait-title">Sleep & mood patterns</div>
+            <p class="trait-body">Why they're hyperactive at 3am. Why they nap for 14 hours. Zodiac has answers where logic doesn't.</p>
+          </div>
+        </div>
+        <div class="trait">
+          <div class="trait-icon">❤️</div>
+          <div>
+            <div class="trait-title">Compatibility with you</div>
+            <p class="trait-body">How your sign and their sign interact. Why some days you're best friends and some days they are Personally Offended.</p>
+          </div>
+        </div>
+        <div class="trait">
+          <div class="trait-icon">🎭</div>
+          <div>
+            <div class="trait-title">Their weird quirks, explained</div>
+            <p class="trait-body">That specific thing they do that makes no sense? We've got a cosmic reason for it.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SAMPLE PROFILE -->
+  <section class="section" style="padding-top: 0;">
+    <div class="wrap">
+      <div class="section-label">Example profile</div>
+      <div class="profile-card">
+        <div class="profile-header">
+          <div class="pet-avatar">🐶</div>
+          <div>
+            <div class="pet-name">Biscuit</div>
+            <div class="pet-sign">Scorpio Sun · Born November 8</div>
+          </div>
+        </div>
+        <div class="profile-traits">
+          <span class="trait-tag">Intensely loyal</span>
+          <span class="trait-tag rose">Suspiciously perceptive</span>
+          <span class="trait-tag">Selective about strangers</span>
+          <span class="trait-tag rose">Cannot let things go</span>
+        </div>
+        <p class="profile-insight">
+          "Biscuit doesn't just bond — he commits. He's identified one human as his person, and everyone else is a tolerated guest. His instincts are excellent and he knows exactly when something is off before you've consciously noticed it. The famous Scorpio stare isn't aggression — it's assessment. He's already decided if he trusts you."
+        </p>
+        <div class="profile-compatibility">
+          <strong>Compatibility with Sagittarius owner:</strong> A pair of contrasts that somehow works. You crave adventure; he craves depth. He'll follow you anywhere and then give you that look when you've stayed out too long.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials">
+    <div class="wrap">
+      <div class="section-label">Pet parents say</div>
+      <div class="testi-list">
+        <div class="testi">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"I sent this to everyone I know. The profile described my cat's personality so accurately it was uncanny. 'Selective about strangers' is the most diplomatic way to say she hates everyone."</p>
+          <div class="testi-author">— Dana K., cat mom to a Virgo</div>
+        </div>
+        <div class="testi">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"This is the most accurate character analysis of my dog I've ever read. Better than anything my vet has said. He IS a dramatic Gemini and I'm finally at peace with it."</p>
+          <div class="testi-author">— Josh M., dog dad to Archie</div>
+        </div>
+        <div class="testi">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"Bought the full profile as a joke. Read it crying because it was so right about my senior dog's personality. Got it for both my dogs now."</p>
+          <div class="testi-author">— Priya T., mama to two Libras</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOTTOM CTA -->
+  <section class="bottom-cta">
+    <div class="wrap">
+      <div class="section-label">Ready to know?</div>
+      <h2>Your pet's<br /><em>stars</em> are waiting.</h2>
+      <p class="section-sub">Enter their birthday. We'll generate their full cosmic profile and send it straight to your inbox.</p>
+
+      <div class="capture-form">
+        <form id="bottom-form" action="https://formspree.io/f/REPLACE_WITH_FORM_ID" method="POST">
+          <div class="input-row">
+            <input type="text" name="pet_name" placeholder="Your pet's name" required />
+            <input type="date" name="pet_birthday" required title="Pet's birthday" />
+            <input type="email" name="email" placeholder="Your email address" required />
+            <button type="submit" class="btn-primary">Reveal My Pet's Sign →</button>
+          </div>
+        </form>
+        <div class="success-msg" id="bottom-success">
+          <div class="success-icon">🌟</div>
+          <p>Your pet's profile is on its way. Check <em>your inbox</em> in about 2 minutes.</p>
+        </div>
+        <p class="form-note">Free. No credit card. Unsubscribe anytime.</p>
+      </div>
+
+      <div class="upgrade-box">
+        <div class="upgrade-label">Want more?</div>
+        <h3>Full 15-page report — $9.99</h3>
+        <p>Deep dive into every aspect of your pet's personality: full trait analysis, training insights based on their sign, compatibility with every family member, and behavioral predictions for the year ahead.</p>
+        <a href="REPLACE_WITH_STRIPE_LINK" class="btn-upgrade">Get the Full Report →</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 Paw & Stars · Privacy · Unsubscribe</p>
+  </footer>
+
+  <script>
+    // Pet type selector
+    document.querySelectorAll('.pet-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.pet-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+
+    function handleForm(formId, successId) {
+      const form = document.getElementById(formId);
+      const success = document.getElementById(successId);
+      if (!form) return;
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const data = new FormData(form);
+        try {
+          const res = await fetch(form.action, {
+            method: 'POST',
+            body: data,
+            headers: { 'Accept': 'application/json' }
+          });
+          if (res.ok) {
+            form.style.display = 'none';
+            success.style.display = 'block';
+          }
+        } catch (err) {
+          form.querySelector('button').textContent = 'Try again →';
+        }
+      });
+    }
+    handleForm('hero-form', 'hero-success');
+    handleForm('bottom-form', 'bottom-success');
+  </script>
+</body>
+</html>

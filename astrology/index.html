@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Birth Chart — Free, Personalized, Instant</title>
+  <meta name="description" content="Get your free AI-powered birth chart. Sun, Moon, and Rising decoded for who you actually are. No astrology degree required." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #08090F;
+      --bg-2: #0D0E1A;
+      --gold: #C9A96E;
+      --gold-lt: #F0D9A8;
+      --gold-dim: rgba(201,169,110,0.15);
+      --white: #F2EFE8;
+      --muted: rgba(242,239,232,0.5);
+      --border: rgba(201,169,110,0.18);
+    }
+
+    html { font-size: 16px; scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── STAR FIELD ── */
+    .stars {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .stars::before,
+    .stars::after {
+      content: '';
+      position: absolute;
+      inset: -50%;
+      background-image:
+        radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.7) 0%, transparent 100%),
+        radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 50% 10%, rgba(255,255,255,0.8) 0%, transparent 100%),
+        radial-gradient(1px 1px at 70% 80%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 90% 35%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 20% 75%, rgba(201,169,110,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 60% 45%, rgba(255,255,255,0.7) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 80% 15%, rgba(201,169,110,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 40% 90%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 15% 50%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 55% 70%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 85% 55%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 25% 30%, rgba(201,169,110,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 75% 65%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 45% 40%, rgba(255,255,255,0.8) 0%, transparent 100%);
+      background-size: 200px 200px;
+      animation: drift 90s linear infinite;
+    }
+    .stars::after {
+      background-size: 300px 300px;
+      animation-duration: 140s;
+      animation-direction: reverse;
+      opacity: 0.6;
+    }
+    @keyframes drift {
+      from { transform: translateY(0); }
+      to { transform: translateY(33.33%); }
+    }
+
+    /* ── GLOW ── */
+    .glow-orb {
+      position: fixed;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(201,169,110,0.06) 0%, transparent 70%);
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+      z-index: 0;
+      animation: pulse 8s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+      50% { opacity: 1; transform: translateX(-50%) scale(1.1); }
+    }
+
+    /* ── LAYOUT ── */
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: relative;
+      z-index: 2;
+      padding: 24px 24px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 14px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: 0.8;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 80px 24px 60px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 28px;
+      opacity: 0.9;
+    }
+
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(52px, 12vw, 80px);
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      color: var(--white);
+      margin-bottom: 24px;
+    }
+    h1 em {
+      font-style: italic;
+      color: var(--gold-lt);
+    }
+
+    .hero-sub {
+      font-size: 16px;
+      font-weight: 300;
+      line-height: 1.6;
+      color: var(--muted);
+      max-width: 340px;
+      margin: 0 auto 40px;
+    }
+
+    /* ── FORM ── */
+    .capture-form {
+      width: 100%;
+      max-width: 380px;
+      margin: 0 auto;
+    }
+    .input-row {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .input-row input[type="text"],
+    .input-row input[type="email"] {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 16px 18px;
+      font-size: 15px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      color: var(--white);
+      outline: none;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+    }
+    .input-row input::placeholder { color: var(--muted); }
+    .input-row input:focus { border-color: var(--gold); }
+
+    .btn-primary {
+      width: 100%;
+      background: linear-gradient(135deg, #C9A96E 0%, #F0D9A8 50%, #C9A96E 100%);
+      background-size: 200% 100%;
+      border: none;
+      border-radius: 6px;
+      padding: 17px 24px;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #1A1200;
+      cursor: pointer;
+      transition: background-position 0.4s, opacity 0.2s;
+    }
+    .btn-primary:hover {
+      background-position: 100% 0;
+      opacity: 0.92;
+    }
+
+    .form-note {
+      margin-top: 14px;
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+      opacity: 0.7;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      width: 1px;
+      height: 60px;
+      background: linear-gradient(to bottom, transparent, var(--border), transparent);
+      margin: 0 auto;
+    }
+
+    /* ── STATS ── */
+    .stats {
+      padding: 64px 24px;
+      position: relative;
+      z-index: 1;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    .stat {
+      text-align: center;
+      padding: 28px 12px;
+      background: rgba(201,169,110,0.04);
+      border: 1px solid var(--border);
+    }
+    .stat:first-child { border-radius: 6px 0 0 6px; }
+    .stat:last-child { border-radius: 0 6px 6px 0; }
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 32px;
+      color: var(--gold-lt);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .stat-label {
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    /* ── SECTION ── */
+    .section {
+      padding: 64px 24px;
+      position: relative;
+      z-index: 1;
+    }
+    .section-label {
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 40px;
+      opacity: 0.8;
+    }
+    h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(36px, 8vw, 52px);
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    h2 em { font-style: italic; color: var(--gold-lt); }
+
+    .section-sub {
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--muted);
+      text-align: center;
+      max-width: 360px;
+      margin: 0 auto 48px;
+    }
+
+    /* ── FEATURES ── */
+    .features {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    .feature {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      padding: 28px 24px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+    }
+    .feature-icon {
+      font-size: 22px;
+      flex-shrink: 0;
+      margin-top: 2px;
+      opacity: 0.9;
+    }
+    .feature-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: 20px;
+      color: var(--white);
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
+    }
+    .feature-body {
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    /* ── SAMPLE CARD ── */
+    .sample {
+      padding: 64px 24px;
+      position: relative;
+      z-index: 1;
+    }
+    .chart-card {
+      max-width: 400px;
+      margin: 0 auto;
+      background: linear-gradient(145deg, rgba(201,169,110,0.08) 0%, rgba(13,14,26,0.9) 100%);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 36px 28px;
+      position: relative;
+      overflow: hidden;
+    }
+    .chart-card::before {
+      content: '';
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      border: 1px solid rgba(201,169,110,0.15);
+    }
+    .chart-card::after {
+      content: '';
+      position: absolute;
+      top: -80px;
+      right: -80px;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      border: 1px solid rgba(201,169,110,0.08);
+    }
+    .chart-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 300;
+      color: var(--gold-lt);
+      margin-bottom: 6px;
+      letter-spacing: 0.05em;
+    }
+    .chart-date {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 28px;
+      letter-spacing: 0.1em;
+    }
+    .placements {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .placement {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(201,169,110,0.1);
+    }
+    .placement:last-child { border-bottom: none; padding-bottom: 0; }
+    .placement-label {
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .placement-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--white);
+    }
+    .placement-sub {
+      font-size: 12px;
+      color: var(--gold);
+      margin-top: 2px;
+      line-height: 1.4;
+    }
+    .chart-insight {
+      background: rgba(201,169,110,0.06);
+      border: 1px solid rgba(201,169,110,0.15);
+      border-radius: 6px;
+      padding: 16px;
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 1.6;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials {
+      padding: 64px 24px;
+      position: relative;
+      z-index: 1;
+    }
+    .testi-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    .testi {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 24px;
+    }
+    .testi-stars {
+      color: var(--gold);
+      font-size: 13px;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+    }
+    .testi-text {
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.65;
+      color: var(--white);
+      font-style: italic;
+      margin-bottom: 14px;
+    }
+    .testi-author {
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+
+    /* ── BOTTOM CTA ── */
+    .bottom-cta {
+      padding: 80px 24px 100px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .bottom-cta h2 { margin-bottom: 12px; }
+    .bottom-cta .section-sub { margin-bottom: 32px; }
+
+    /* ── PRICING ── */
+    .pricing-note {
+      margin-top: 32px;
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      max-width: 380px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .pricing-note p {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .pricing-note strong {
+      color: var(--gold-lt);
+      font-weight: 400;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 32px 24px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    footer p {
+      font-size: 12px;
+      color: var(--muted);
+      opacity: 0.5;
+    }
+
+    /* ── SUCCESS STATE ── */
+    .success-msg {
+      display: none;
+      text-align: center;
+      padding: 24px;
+      background: rgba(201,169,110,0.06);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+    .success-msg .success-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+    .success-msg p {
+      font-size: 15px;
+      color: var(--white);
+      line-height: 1.6;
+    }
+    .success-msg p em {
+      color: var(--gold-lt);
+      font-style: normal;
+    }
+  </style>
+</head>
+<body>
+  <div class="stars"></div>
+  <div class="glow-orb"></div>
+
+  <nav>
+    <span class="nav-logo">Celestia AI</span>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="eyebrow">Free Birth Chart</div>
+    <h1>Your stars,<br /><em>decoded.</em></h1>
+    <p class="hero-sub">
+      Get your free AI birth chart — Sun, Moon, and Rising explained for who you actually are right now. Not who you were in 2015.
+    </p>
+
+    <div class="capture-form">
+      <form id="hero-form" action="https://formspree.io/f/REPLACE_WITH_FORM_ID" method="POST">
+        <div class="input-row">
+          <input type="text" name="name" placeholder="Your first name" required />
+          <input type="email" name="email" placeholder="Email address" required />
+          <button type="submit" class="btn-primary">Get My Free Chart →</button>
+        </div>
+      </form>
+      <div class="success-msg" id="hero-success">
+        <div class="success-icon">✦</div>
+        <p>Your chart is on its way. Check <em>your inbox</em> — usually within 2 minutes.</p>
+      </div>
+      <p class="form-note">Free. No credit card. Unsubscribe anytime.</p>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- STATS -->
+  <section class="stats">
+    <div class="stats-grid">
+      <div class="stat">
+        <div class="stat-num">47K+</div>
+        <div class="stat-label">Charts read</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">4.9★</div>
+        <div class="stat-label">Average rating</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">2 min</div>
+        <div class="stat-label">To your inbox</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT YOU GET -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-label">What you receive</div>
+      <h2>More than a<br /><em>sun sign.</em></h2>
+      <p class="section-sub">
+        Your free chart covers the three placements that actually shape your personality — the full picture, not the horoscope column.
+      </p>
+
+      <div class="features">
+        <div class="feature">
+          <div class="feature-icon">☀️</div>
+          <div>
+            <div class="feature-title">Sun sign — your core</div>
+            <p class="feature-body">The ego, identity, and conscious self. Who you're becoming, not just who you were born as.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🌙</div>
+          <div>
+            <div class="feature-title">Moon sign — your inner world</div>
+            <p class="feature-body">Emotions, instincts, what you need to feel safe. The part of you almost nobody sees.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">⬆️</div>
+          <div>
+            <div class="feature-title">Rising sign — your surface</div>
+            <p class="feature-body">First impressions, physical presence, how the world perceives you before you open your mouth.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SAMPLE CHART -->
+  <section class="sample">
+    <div class="wrap">
+      <div class="section-label">Example chart</div>
+      <div class="chart-card">
+        <div class="chart-name">Sarah M.</div>
+        <div class="chart-date">March 15 · 2:47 AM · Austin, TX</div>
+        <div class="placements">
+          <div class="placement">
+            <div>
+              <div class="placement-label">Sun</div>
+              <div class="placement-sub">Core identity</div>
+            </div>
+            <div class="placement-value">Pisces ♓</div>
+          </div>
+          <div class="placement">
+            <div>
+              <div class="placement-label">Moon</div>
+              <div class="placement-sub">Emotional nature</div>
+            </div>
+            <div class="placement-value">Scorpio ♏</div>
+          </div>
+          <div class="placement">
+            <div>
+              <div class="placement-label">Rising</div>
+              <div class="placement-sub">How others see you</div>
+            </div>
+            <div class="placement-value">Sagittarius ♐</div>
+          </div>
+        </div>
+        <div class="chart-insight">
+          "You move through the world with restless optimism that masks extraordinary emotional depth. You feel everything — you just make it look effortless."
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials">
+    <div class="wrap">
+      <div class="section-label">Real reactions</div>
+      <div class="testi-list">
+        <div class="testi">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"I've been into astrology for years and this is the first reading that actually made me feel understood. The Moon sign description was so accurate it was unsettling."</p>
+          <div class="testi-author">— Jenna K., Scorpio moon</div>
+        </div>
+        <div class="testi">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"Forwarded this to six of my friends immediately. We were all comparing our charts for like two hours. Way more specific than anything I've read before."</p>
+          <div class="testi-author">— Maya T., Leo rising</div>
+        </div>
+        <div class="testi">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"Okay I'm a skeptic but this was weirdly spot on. Sent it to my therapist because it explained things better than I can."</p>
+          <div class="testi-author">— Priya D., Capricorn sun</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOTTOM CTA -->
+  <section class="bottom-cta">
+    <div class="wrap">
+      <div class="section-label">Ready?</div>
+      <h2>It takes<br /><em>30 seconds.</em></h2>
+      <p class="section-sub">Enter your birth details. We generate your chart instantly and send it straight to your inbox.</p>
+
+      <div class="capture-form">
+        <form id="bottom-form" action="https://formspree.io/f/REPLACE_WITH_FORM_ID" method="POST">
+          <div class="input-row">
+            <input type="text" name="name" placeholder="Your first name" required />
+            <input type="email" name="email" placeholder="Email address" required />
+            <button type="submit" class="btn-primary">Get My Free Chart →</button>
+          </div>
+        </form>
+        <div class="success-msg" id="bottom-success">
+          <div class="success-icon">✦</div>
+          <p>Your chart is on its way. Check <em>your inbox</em> — usually within 2 minutes.</p>
+        </div>
+        <p class="form-note">Free. No credit card. Unsubscribe anytime.</p>
+      </div>
+
+      <div class="pricing-note">
+        <p>Want deeper insight? <strong>Celestia Pro — $9.99/mo</strong> gives you daily personalized transits, compatibility analysis, and monthly forecasts.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 Celestia AI · Privacy · Unsubscribe</p>
+  </footer>
+
+  <script>
+    function handleForm(formId, successId) {
+      const form = document.getElementById(formId);
+      const success = document.getElementById(successId);
+      if (!form) return;
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const data = new FormData(form);
+        try {
+          const res = await fetch(form.action, {
+            method: 'POST',
+            body: data,
+            headers: { 'Accept': 'application/json' }
+          });
+          if (res.ok) {
+            form.style.display = 'none';
+            success.style.display = 'block';
+          }
+        } catch (err) {
+          form.querySelector('button').textContent = 'Try again →';
+        }
+      });
+    }
+    handleForm('hero-form', 'hero-success');
+    handleForm('bottom-form', 'bottom-success');
+  </script>
+</body>
+</html>
