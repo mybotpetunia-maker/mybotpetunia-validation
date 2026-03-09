@@ -124,6 +124,15 @@
     .success-msg .icon { font-size: 32px; margin-bottom: 12px; }
     .success-msg p { font-size: 15px; color: var(--white); line-height: 1.6; }
     .success-msg p em { color: var(--teal-lt); font-style: normal; }
+
+    .time-row { display: flex; gap: 8px; }
+    .time-select {
+      flex: 1; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 6px;
+      padding: 15px 10px; font-size: 15px; font-family: 'Inter', sans-serif; font-weight: 300;
+      color: var(--white); outline: none; -webkit-appearance: none; appearance: none; cursor: pointer;
+      text-align: center; transition: border-color 0.2s;
+    }
+    .time-select:focus { border-color: var(--teal); }
   </style>
 </head>
 <body>
@@ -140,12 +149,16 @@
     <div class="capture-form">
       <form id="hero-form" action="/api/submit" method="POST">
         <div class="input-row">
-          <input type="text" name="name" placeholder="Your first name" required />
-          <input type="date" name="birth_date" required title="Date of birth" />
-          <input type="time" name="birth_time" required title="Time of birth" />
-          <p class="field-hint">Birth time is required for an accurate Human Design chart.</p>
-          <input type="text" name="birth_city" placeholder="City of birth" required />
-          <input type="email" name="email" placeholder="Email — we'll send your reading here" required />
+          <input type="text" name="name" placeholder="First name" autocomplete="given-name" required />
+          <input type="date" name="birth_date" autocomplete="bday" required title="Date of birth" />
+                    <div class="time-row">
+            <select name="birth_hour" class="time-select"><option value="">Hour</option><option value="12">12</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option></select>
+            <select name="birth_minute" class="time-select"><option value="00">:00</option><option value="15">:15</option><option value="30">:30</option><option value="45">:45</option></select>
+            <select name="birth_period" class="time-select"><option value="AM">AM</option><option value="PM">PM</option></select>
+          </div>
+          <p class="field-hint" style="font-size:11px;color:var(--muted);opacity:.65;padding:0 2px;margin-top:-4px">Required for accurate HD chart</p>
+          <input type="text" name="birth_city" placeholder="City of birth" autocomplete="address-level2" required />
+          <input type="email" name="email" placeholder="Email address" autocomplete="email" inputmode="email" required />
           <button type="submit" class="btn-primary">Get My Free Reading →</button>
         </div>
       </form>
@@ -247,12 +260,16 @@
       <div class="capture-form">
         <form id="bottom-form" action="/api/submit" method="POST">
           <div class="input-row">
-            <input type="text" name="name" placeholder="Your first name" required />
-            <input type="date" name="birth_date" required />
-            <input type="time" name="birth_time" required />
+            <input type="text" name="name" placeholder="First name" autocomplete="given-name" required />
+            <input type="date" name="birth_date" autocomplete="bday" required />
+                      <div class="time-row">
+            <select name="birth_hour" class="time-select"><option value="">Hour</option><option value="12">12</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option></select>
+            <select name="birth_minute" class="time-select"><option value="00">:00</option><option value="15">:15</option><option value="30">:30</option><option value="45">:45</option></select>
+            <select name="birth_period" class="time-select"><option value="AM">AM</option><option value="PM">PM</option></select>
+          </div>
             <p class="field-hint">Birth time required for accurate results.</p>
-            <input type="text" name="birth_city" placeholder="City of birth" required />
-            <input type="email" name="email" placeholder="Email — your reading goes here" required />
+            <input type="text" name="birth_city" placeholder="City of birth" autocomplete="address-level2" required />
+            <input type="email" name="email" placeholder="Email address" autocomplete="email" inputmode="email" required />
             <button type="submit" class="btn-primary">Get My Free Reading →</button>
           </div>
         </form>

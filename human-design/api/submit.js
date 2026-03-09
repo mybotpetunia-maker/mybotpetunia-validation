@@ -37,7 +37,8 @@ function getProfile(dateStr) {
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { name, birth_date, birth_time, birth_city, email } = req.body;
+  const { name, birth_date, birth_hour, birth_minute = "00", birth_period = "AM", birth_city, email } = req.body;
+  const birth_time = birth_hour ? `${birth_hour}:${birth_minute} ${birth_period}` : null;
 
   if (!name || !birth_date || !birth_city || !email) {
     return res.status(400).json({ error: 'Missing required fields' });

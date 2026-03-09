@@ -131,10 +131,10 @@
     <div class="capture-form">
       <form id="hero-form" action="/api/submit" method="POST">
         <div class="input-row">
-          <input type="text" name="name" placeholder="Your first name" required />
+          <input type="text" name="name" placeholder="First name" autocomplete="given-name" required />
           <textarea name="dream" placeholder="Describe your dream — what happened, who was there, how it felt, anything you remember..." required></textarea>
           <p class="textarea-hint">More detail = better interpretation. Include feelings, not just events.</p>
-          <input type="email" name="email" placeholder="Email — we'll send your interpretation here" required />
+          <input type="email" name="email" placeholder="Email address" autocomplete="email" inputmode="email" required />
           <button type="submit" class="btn-primary">Interpret My Dream →</button>
         </div>
       </form>
@@ -196,9 +196,9 @@
       <div class="capture-form">
         <form id="bottom-form" action="/api/submit" method="POST">
           <div class="input-row">
-            <input type="text" name="name" placeholder="Your first name" required />
+            <input type="text" name="name" placeholder="First name" autocomplete="given-name" required />
             <textarea name="dream" placeholder="Describe your dream..." required></textarea>
-            <input type="email" name="email" placeholder="Email — your interpretation goes here" required />
+            <input type="email" name="email" placeholder="Email address" autocomplete="email" inputmode="email" required />
             <button type="submit" class="btn-primary">Interpret My Dream →</button>
           </div>
         </form>
