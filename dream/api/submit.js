@@ -44,13 +44,13 @@ Format as flowing paragraphs only. Personal, direct, specific to ${name}'s dream
     const interpretation = message.content[0].text;
 
     await resend.emails.send({
-      from: 'Reverie AI <dreams@mybotpetunia.com>',
+      from: 'Reverie <dreams@mybotpetunia.com>',
       to: email,
       subject: `${name}, your dream interpretation is here 🌙`,
       html: `
         <div style="max-width:600px;margin:0 auto;background:#09080F;color:#F0EEFF;font-family:Georgia,serif;padding:40px 32px;">
           <div style="text-align:center;margin-bottom:32px;">
-            <p style="font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#A5B4FC;margin-bottom:12px;">Reverie AI</p>
+            <p style="font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#A5B4FC;margin-bottom:12px;">Reverie</p>
             <h1 style="font-size:26px;font-weight:300;margin:0;color:#F0EEFF;">Your Dream Interpretation</h1>
             <p style="font-size:13px;color:rgba(240,238,255,0.4);margin-top:8px;">${name}</p>
           </div>
@@ -69,7 +69,7 @@ Format as flowing paragraphs only. Personal, direct, specific to ${name}'s dream
           </div>
 
           <div style="margin-top:24px;text-align:center;">
-            <p style="font-size:11px;color:rgba(240,238,255,0.2);">© 2026 Reverie AI · <a href="#" style="color:rgba(240,238,255,0.2);">Unsubscribe</a></p>
+            <p style="font-size:11px;color:rgba(240,238,255,0.2);">© 2026 Reverie · <a href="#" style="color:rgba(240,238,255,0.2);">Unsubscribe</a></p>
           </div>
         </div>
       `

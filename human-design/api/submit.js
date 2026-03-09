@@ -79,13 +79,13 @@ Format as flowing paragraphs only. No headers, no bullet points.`
     const reading = message.content[0].text;
 
     await resend.emails.send({
-      from: 'Origin AI <readings@mybotpetunia.com>',
+      from: 'Origin <readings@mybotpetunia.com>',
       to: email,
       subject: `${name}, your Human Design reading is here ◈`,
       html: `
         <div style="max-width:600px;margin:0 auto;background:#080B0F;color:#EEF4F4;font-family:Georgia,serif;padding:40px 32px;">
           <div style="text-align:center;margin-bottom:32px;">
-            <p style="font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#2DD4BF;margin-bottom:12px;">Origin AI</p>
+            <p style="font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#2DD4BF;margin-bottom:12px;">Origin</p>
             <h1 style="font-size:26px;font-weight:300;margin:0;color:#7EEAEA;">${name}'s Human Design</h1>
             <p style="font-size:13px;color:rgba(238,244,244,0.4);margin-top:8px;">${birth_date} · ${birth_city}</p>
           </div>
@@ -114,7 +114,7 @@ Format as flowing paragraphs only. No headers, no bullet points.`
           </div>
 
           <div style="margin-top:24px;text-align:center;">
-            <p style="font-size:11px;color:rgba(238,244,244,0.2);">© 2026 Origin AI · <a href="#" style="color:rgba(238,244,244,0.2);">Unsubscribe</a></p>
+            <p style="font-size:11px;color:rgba(238,244,244,0.2);">© 2026 Origin · <a href="#" style="color:rgba(238,244,244,0.2);">Unsubscribe</a></p>
           </div>
         </div>
       `

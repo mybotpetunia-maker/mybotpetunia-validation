@@ -72,13 +72,13 @@ Format as flowing paragraphs, no headers, no bullet points. Make it feel persona
 
     // Send email
     await resend.emails.send({
-      from: 'Celestia AI <readings@mybotpetunia.com>',
+      from: 'Celestia <readings@mybotpetunia.com>',
       to: email,
       subject: `${name}, your birth chart reading is here ✦`,
       html: `
         <div style="max-width:600px;margin:0 auto;background:#08090F;color:#F2EFE8;font-family:Georgia,serif;padding:40px 32px;">
           <div style="text-align:center;margin-bottom:32px;">
-            <p style="font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#C9A96E;margin-bottom:12px;">Celestia AI</p>
+            <p style="font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#C9A96E;margin-bottom:12px;">Celestia</p>
             <h1 style="font-size:28px;font-weight:300;margin:0;color:#F0D9A8;">${name}'s Birth Chart</h1>
             <p style="font-size:13px;color:rgba(242,239,232,0.5);margin-top:8px;">${birth_date} · ${birth_city}</p>
           </div>
@@ -97,7 +97,7 @@ Format as flowing paragraphs, no headers, no bullet points. Make it feel persona
           </div>
           
           <div style="margin-top:24px;text-align:center;">
-            <p style="font-size:11px;color:rgba(242,239,232,0.25);">© 2026 Celestia AI · <a href="#" style="color:rgba(242,239,232,0.25);">Unsubscribe</a></p>
+            <p style="font-size:11px;color:rgba(242,239,232,0.25);">© 2026 Celestia · <a href="#" style="color:rgba(242,239,232,0.25);">Unsubscribe</a></p>
           </div>
         </div>
       `
