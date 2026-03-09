@@ -310,46 +310,6 @@
       z-index: 1;
     }
 
-    /* ── STATS ── */
-    .stats {
-      padding: 64px 24px;
-      position: relative;
-      z-index: 1;
-    }
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2px;
-      max-width: 480px;
-      margin: 0 auto;
-    }
-    .stat {
-      text-align: center;
-      padding: 28px 12px;
-      background: rgba(124,58,237,0.05);
-      border: 1px solid var(--border);
-    }
-    .stat:first-child { border-radius: 6px 0 0 6px; }
-    .stat:last-child { border-radius: 0 6px 6px 0; }
-    .stat-num {
-      font-family: 'Cinzel', serif;
-      font-weight: 400;
-      font-size: 28px;
-      background: linear-gradient(135deg, var(--violet-lt), var(--rose-lt));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      line-height: 1;
-      margin-bottom: 6px;
-    }
-    .stat-label {
-      font-size: 11px;
-      font-weight: 400;
-      letter-spacing: 0.1em;
-      color: var(--muted);
-      text-transform: uppercase;
-    }
-
     /* ── SECTION ── */
     .section {
       padding: 64px 24px;
@@ -522,48 +482,6 @@
       font-style: italic;
     }
 
-    /* ── TESTIMONIALS ── */
-    .testimonials {
-      padding: 64px 24px;
-      position: relative;
-      z-index: 1;
-    }
-    .testi-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      max-width: 480px;
-      margin: 0 auto;
-    }
-    .testi {
-      background: rgba(255,255,255,0.02);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 24px;
-    }
-    .testi-stars {
-      font-size: 13px;
-      letter-spacing: 2px;
-      margin-bottom: 10px;
-      background: linear-gradient(135deg, var(--violet-lt), var(--rose-lt));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .testi-text {
-      font-size: 15px;
-      font-weight: 300;
-      line-height: 1.65;
-      color: var(--white);
-      font-style: italic;
-      margin-bottom: 14px;
-    }
-    .testi-author {
-      font-size: 12px;
-      color: var(--muted);
-      letter-spacing: 0.08em;
-    }
-
     /* ── BOTTOM CTA ── */
     .bottom-cta {
       padding: 80px 24px 100px;
@@ -672,26 +590,6 @@
     </div>
   </section>
 
-  <div class="divider"></div>
-
-  <!-- STATS -->
-  <section class="stats">
-    <div class="stats-grid">
-      <div class="stat">
-        <div class="stat-num">82K+</div>
-        <div class="stat-label">Cards pulled</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">4.9★</div>
-        <div class="stat-label">Average rating</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">Instant</div>
-        <div class="stat-label">Delivery</div>
-      </div>
-    </div>
-  </section>
-
   <!-- READINGS -->
   <section class="section">
     <div class="wrap">
@@ -744,30 +642,6 @@
         <p class="reading-body">
           "Something you already know is being confirmed right now — you just haven't fully trusted it yet. The High Priestess appears when your intuition is sharper than your logic, and you keep talking yourself out of what your gut is clearly telling you. Sit with the discomfort. The answer isn't coming from outside."
         </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- TESTIMONIALS -->
-  <section class="testimonials">
-    <div class="wrap">
-      <div class="section-label">What people say</div>
-      <div class="testi-list">
-        <div class="testi">
-          <div class="testi-stars">★★★★★</div>
-          <p class="testi-text">"I pull my card every morning before I check my phone. The readings are genuinely thoughtful — like a good therapist but faster."</p>
-          <div class="testi-author">— Amara L., daily user</div>
-        </div>
-        <div class="testi">
-          <div class="testi-stars">★★★★★</div>
-          <p class="testi-text">"Bought the Celtic Cross reading during a really hard week. The card for 'what's crossing you' described my situation so precisely I actually gasped."</p>
-          <div class="testi-author">— Rachel S., verified buyer</div>
-        </div>
-        <div class="testi">
-          <div class="testi-stars">★★★★★</div>
-          <p class="testi-text">"Not a tarot person but my friend sent me a free card and the reading hit different. Pulled one every day since."</p>
-          <div class="testi-author">— Marcus W., new convert</div>
-        </div>
       </div>
     </div>
   </section>
