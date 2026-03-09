@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Dream Interpreter — What Did Your Dream Actually Mean?</title>
+  <meta name="description" content="Describe your dream and get a free AI interpretation. Not a dictionary. A reading of your specific dream, symbols, and emotions." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #09080F;
+      --indigo: #6366F1;
+      --indigo-lt: #A5B4FC;
+      --violet: #8B5CF6;
+      --white: #F0EEFF;
+      --muted: rgba(240,238,255,0.45);
+      --border: rgba(163,148,252,0.18);
+    }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--white); font-family: 'Inter', sans-serif; font-weight: 300; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+    .bg-glow { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+    .bg-glow::before { content: ''; position: absolute; width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(ellipse, rgba(99,102,241,0.07) 0%, transparent 70%); top: -200px; left: 50%; transform: translateX(-50%); animation: glow 10s ease-in-out infinite; }
+    .bg-glow::after { content: ''; position: absolute; width: 400px; height: 400px; border-radius: 50%; background: radial-gradient(ellipse, rgba(139,92,246,0.05) 0%, transparent 70%); bottom: -100px; right: 20%; animation: glow 14s ease-in-out infinite reverse; }
+    @keyframes glow { 0%,100%{opacity:.6;} 50%{opacity:1;} }
+
+    .stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .stars::before { content: ''; position: absolute; inset: -50%;
+      background-image:
+        radial-gradient(1px 1px at 15% 25%, rgba(163,148,252,0.5) 0%,transparent 100%),
+        radial-gradient(1px 1px at 40% 70%, rgba(255,255,255,0.3) 0%,transparent 100%),
+        radial-gradient(1px 1px at 65% 15%, rgba(255,255,255,0.4) 0%,transparent 100%),
+        radial-gradient(1px 1px at 80% 60%, rgba(163,148,252,0.4) 0%,transparent 100%),
+        radial-gradient(1px 1px at 25% 85%, rgba(255,255,255,0.3) 0%,transparent 100%),
+        radial-gradient(1.5px 1.5px at 55% 40%, rgba(139,92,246,0.4) 0%,transparent 100%),
+        radial-gradient(1px 1px at 90% 30%, rgba(255,255,255,0.5) 0%,transparent 100%);
+      background-size: 250px 250px; animation: drift 100s linear infinite;
+    }
+    @keyframes drift { from{transform:translateY(0)} to{transform:translateY(33.33%)} }
+
+    .wrap { position: relative; z-index: 1; max-width: 480px; margin: 0 auto; padding: 0 24px; }
+    nav { position: relative; z-index: 2; padding: 28px 24px 0; display: flex; justify-content: center; }
+    .nav-logo { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 14px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--indigo-lt); opacity: 0.85; }
+
+    .hero { min-height: 100svh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 80px 24px 60px; position: relative; z-index: 1; }
+    .eyebrow { font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--indigo-lt); margin-bottom: 28px; opacity: 0.9; }
+    h1 { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(50px, 12vw, 76px); line-height: 0.95; letter-spacing: -0.02em; margin-bottom: 24px; }
+    h1 em { font-style: italic; color: var(--indigo-lt); }
+    .hero-sub { font-size: 16px; font-weight: 300; line-height: 1.65; color: var(--muted); max-width: 360px; margin: 0 auto 14px; }
+    .hero-distinction { font-size: 13px; color: var(--indigo-lt); opacity: 0.8; margin-bottom: 36px; font-style: italic; }
+
+    .capture-form { width: 100%; max-width: 400px; margin: 0 auto; }
+    .input-row { display: flex; flex-direction: column; gap: 10px; }
+    .input-row input, .input-row textarea {
+      width: 100%; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 6px;
+      padding: 15px 18px; font-size: 15px; font-family: 'Inter', sans-serif; font-weight: 300;
+      color: var(--white); outline: none; transition: border-color 0.2s; -webkit-appearance: none;
+    }
+    .input-row textarea { min-height: 140px; resize: vertical; line-height: 1.6; }
+    .input-row input::placeholder, .input-row textarea::placeholder { color: var(--muted); }
+    .input-row input:focus, .input-row textarea:focus { border-color: var(--indigo-lt); }
+
+    .textarea-hint { font-size: 11px; color: var(--muted); opacity: 0.7; margin-top: -4px; text-align: left; padding: 0 2px; }
+
+    .btn-primary {
+      width: 100%; background: linear-gradient(135deg, #6366F1, #8B5CF6); border: none; border-radius: 6px;
+      padding: 17px 24px; font-size: 14px; font-family: 'Inter', sans-serif; font-weight: 500;
+      letter-spacing: 0.08em; text-transform: uppercase; color: #fff; cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+    .form-note { margin-top: 12px; font-size: 12px; color: var(--muted); text-align: center; opacity: 0.65; }
+
+    .section { padding: 64px 24px; position: relative; z-index: 1; }
+    .section-label { font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--indigo-lt); text-align: center; margin-bottom: 36px; opacity: 0.8; }
+    h2 { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(36px, 8vw, 52px); line-height: 1.1; text-align: center; margin-bottom: 14px; }
+    h2 em { font-style: italic; color: var(--indigo-lt); }
+    .section-sub { font-size: 15px; font-weight: 300; line-height: 1.7; color: var(--muted); text-align: center; max-width: 360px; margin: 0 auto 44px; }
+
+    .how-steps { display: flex; flex-direction: column; gap: 2px; max-width: 480px; margin: 0 auto; }
+    .step { display: flex; align-items: flex-start; gap: 20px; padding: 22px 20px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 6px; }
+    .step-num { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 300; color: var(--indigo-lt); flex-shrink: 0; line-height: 1; min-width: 24px; }
+    .step-title { font-family: 'Cormorant Garamond', serif; font-size: 19px; color: var(--white); margin-bottom: 5px; }
+    .step-body { font-size: 14px; font-weight: 300; line-height: 1.6; color: var(--muted); }
+
+    .difference { max-width: 480px; margin: 0 auto; }
+    .diff-row { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+    .diff-cell { padding: 18px; font-size: 14px; font-weight: 300; line-height: 1.55; }
+    .diff-cell.bad { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); color: var(--muted); }
+    .diff-cell.good { background: rgba(99,102,241,0.06); border: 1px solid var(--border); color: var(--white); }
+    .diff-hdr { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 8px; }
+    .diff-hdr.bad { color: rgba(255,255,255,0.25); }
+    .diff-hdr.good { color: var(--indigo-lt); }
+
+    .sample-card { max-width: 440px; margin: 0 auto; background: linear-gradient(145deg, rgba(99,102,241,0.08) 0%, rgba(9,8,15,0.95) 100%); border: 1px solid var(--border); border-radius: 12px; padding: 28px 24px; }
+    .sample-dream { font-size: 13px; color: var(--muted); font-style: italic; line-height: 1.6; padding: 14px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; margin-bottom: 20px; }
+    .sample-dream::before { content: '"'; font-family: 'Cormorant Garamond', serif; font-size: 28px; color: var(--indigo-lt); opacity: 0.5; display: block; margin-bottom: -8px; }
+    .sample-interp { font-size: 15px; font-weight: 300; line-height: 1.75; color: rgba(240,238,255,0.8); font-style: italic; }
+    .interp-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--indigo-lt); opacity: 0.7; margin-bottom: 12px; }
+
+    .bottom-cta { padding: 80px 24px 100px; text-align: center; position: relative; z-index: 1; }
+    .upgrade-note { margin-top: 28px; padding: 20px; border: 1px solid var(--border); border-radius: 8px; max-width: 400px; margin-left: auto; margin-right: auto; }
+    .upgrade-note p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+    .upgrade-note strong { color: var(--indigo-lt); font-weight: 400; }
+    .btn-upgrade { display: inline-block; margin-top: 12px; border: 1px solid rgba(163,148,252,0.35); border-radius: 6px; padding: 12px 24px; font-size: 13px; color: var(--indigo-lt); text-decoration: none; transition: all 0.2s; }
+    .btn-upgrade:hover { background: rgba(99,102,241,0.1); border-color: rgba(163,148,252,0.6); }
+
+    footer { padding: 32px 24px; border-top: 1px solid var(--border); text-align: center; position: relative; z-index: 1; }
+    footer p { font-size: 12px; color: var(--muted); opacity: 0.5; }
+
+    .success-msg { display: none; text-align: center; padding: 28px 24px; background: rgba(99,102,241,0.07); border: 1px solid var(--border); border-radius: 8px; }
+    .success-msg .icon { font-size: 32px; margin-bottom: 12px; }
+    .success-msg p { font-size: 15px; color: var(--white); line-height: 1.6; }
+    .success-msg p em { color: var(--indigo-lt); font-style: normal; }
+  </style>
+</head>
+<body>
+  <div class="bg-glow"></div>
+  <div class="stars"></div>
+  <nav><span class="nav-logo">Reverie AI</span></nav>
+
+  <section class="hero">
+    <div class="eyebrow">Free Dream Interpretation</div>
+    <h1>What did your<br />dream <em>actually</em><br />mean?</h1>
+    <p class="hero-sub">Describe what you dreamed. Get a free AI interpretation of your specific symbols, emotions, and narrative — not a generic dictionary definition.</p>
+    <p class="hero-distinction">Because "water means emotion" isn't an interpretation. It's a cop-out.</p>
+
+    <div class="capture-form">
+      <form id="hero-form" action="https://formspree.io/f/xojkjjdb" method="POST">
+        <div class="input-row">
+          <input type="text" name="name" placeholder="Your first name" required />
+          <textarea name="dream" placeholder="Describe your dream — what happened, who was there, how it felt, anything you remember..." required></textarea>
+          <p class="textarea-hint">More detail = better interpretation. Include feelings, not just events.</p>
+          <input type="email" name="email" placeholder="Email — we'll send your interpretation here" required />
+          <button type="submit" class="btn-primary">Interpret My Dream →</button>
+        </div>
+      </form>
+      <div class="success-msg" id="hero-success">
+        <div class="icon">🌙</div>
+        <p>We're interpreting your dream now. Check <em>your inbox</em> in the next few minutes.</p>
+      </div>
+      <p class="form-note">Free. No credit card. Unsubscribe anytime.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-label">The difference</div>
+      <h2>Your dream is<br /><em>not generic.</em></h2>
+      <p class="section-sub">Dream dictionaries give you symbol definitions. We interpret the whole dream — your specific version of it, with your emotions, your context.</p>
+      <div class="difference">
+        <div class="diff-row">
+          <div class="diff-cell bad">
+            <div class="diff-hdr bad">Dream dictionary</div>
+            "Water = emotion and the subconscious. Falling = loss of control."
+          </div>
+          <div class="diff-cell good">
+            <div class="diff-hdr good">Reverie AI</div>
+            "The fact that you were calm while underwater — not panicking — suggests you're more at peace with what's been unresolved than you're letting yourself believe."
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-label">How it works</div>
+      <div class="how-steps">
+        <div class="step"><div class="step-num">1</div><div><div class="step-title">Describe your dream</div><p class="step-body">Write what you remember — symbols, people, feelings, events. The more detail, the more precise the interpretation.</p></div></div>
+        <div class="step"><div class="step-num">2</div><div><div class="step-title">AI reads the whole picture</div><p class="step-body">Not just symbol lookups. We analyze the emotional narrative, relationships between elements, and what your subconscious is processing.</p></div></div>
+        <div class="step"><div class="step-num">3</div><div><div class="step-title">Sent to your inbox</div><p class="step-body">Your interpretation arrives within minutes — something worth sitting with.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-label">Example interpretation</div>
+      <div class="sample-card">
+        <div class="sample-dream">I was underwater in what looked like my childhood home, but everything was different. I wasn't scared — just floating. My mom was there but she didn't say anything. Then I woke up.</div>
+        <div class="interp-label">Interpretation</div>
+        <div class="sample-interp">"The underwater setting combined with your childhood home points to revisiting something foundational — likely a relationship or belief from early life that you're currently re-evaluating. The absence of fear is significant: this isn't anxiety about the past, it's curiosity. Your mother's silence suggests the conversation you need isn't with her — it's an internal one. Something is asking to be understood, not resolved."</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bottom-cta">
+    <div class="wrap">
+      <div class="section-label">Still thinking about it?</div>
+      <h2>Get your<br /><em>interpretation.</em></h2>
+      <p class="section-sub">Describe your dream. We'll interpret it and send it straight to your inbox — free.</p>
+      <div class="capture-form">
+        <form id="bottom-form" action="https://formspree.io/f/xojkjjdb" method="POST">
+          <div class="input-row">
+            <input type="text" name="name" placeholder="Your first name" required />
+            <textarea name="dream" placeholder="Describe your dream..." required></textarea>
+            <input type="email" name="email" placeholder="Email — your interpretation goes here" required />
+            <button type="submit" class="btn-primary">Interpret My Dream →</button>
+          </div>
+        </form>
+        <div class="success-msg" id="bottom-success">
+          <div class="icon">🌙</div>
+          <p>We're interpreting your dream now. Check <em>your inbox</em> in the next few minutes.</p>
+        </div>
+        <p class="form-note">Free. No credit card. Unsubscribe anytime.</p>
+      </div>
+      <div class="upgrade-note">
+        <p>Want to journal and interpret multiple dreams? <strong>Reverie Pro — $4.99/mo</strong> gives you unlimited interpretations, a searchable dream journal, and pattern analysis over time.</p>
+        <a href="REPLACE_WITH_STRIPE_LINK" class="btn-upgrade">Try Reverie Pro →</a>
+      </div>
+    </div>
+  </section>
+
+  <footer><p>© 2026 Reverie AI · Privacy · Unsubscribe</p></footer>
+
+  <script>
+    function handleForm(formId, successId) {
+      const form = document.getElementById(formId);
+      const success = document.getElementById(successId);
+      if (!form) return;
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = form.querySelector('button');
+        btn.textContent = 'Sending…'; btn.disabled = true;
+        try {
+          const res = await fetch(form.action, { method:'POST', body: new FormData(form), headers:{'Accept':'application/json'} });
+          if (res.ok) { form.style.display='none'; success.style.display='block'; }
+          else { btn.textContent='Try again →'; btn.disabled=false; }
+        } catch { btn.textContent='Try again →'; btn.disabled=false; }
+      });
+    }
+    handleForm('hero-form','hero-success');
+    handleForm('bottom-form','bottom-success');
+  </script>
+</body>
+</html>

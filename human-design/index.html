@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Free Human Design Reading — What Your Type Actually Means</title>
+  <meta name="description" content="Get your free Human Design reading. Finally understand what your type, profile, and defined centers mean for how you actually live." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #080B0F;
+      --teal: #2DD4BF;
+      --teal-lt: #7EEAEA;
+      --amber: #F59E0B;
+      --amber-lt: #FCD34D;
+      --white: #EEF4F4;
+      --muted: rgba(238,244,244,0.45);
+      --border: rgba(45,212,191,0.15);
+    }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--white); font-family: 'Inter', sans-serif; font-weight: 300; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+    .bg-layer { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+    .bg-layer::before { content: ''; position: absolute; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(ellipse, rgba(45,212,191,0.06) 0%, transparent 70%); top: -150px; left: 50%; transform: translateX(-50%); animation: glow 9s ease-in-out infinite; }
+    @keyframes glow { 0%,100%{opacity:.6;} 50%{opacity:1;} }
+
+    .stars { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .stars::before { content: ''; position: absolute; inset: -50%;
+      background-image:
+        radial-gradient(1px 1px at 12% 22%, rgba(45,212,191,0.4) 0%,transparent 100%),
+        radial-gradient(1px 1px at 38% 68%, rgba(255,255,255,0.3) 0%,transparent 100%),
+        radial-gradient(1.5px 1.5px at 62% 18%, rgba(245,158,11,0.35) 0%,transparent 100%),
+        radial-gradient(1px 1px at 82% 72%, rgba(45,212,191,0.35) 0%,transparent 100%),
+        radial-gradient(1px 1px at 22% 85%, rgba(255,255,255,0.3) 0%,transparent 100%),
+        radial-gradient(1px 1px at 70% 42%, rgba(45,212,191,0.3) 0%,transparent 100%);
+      background-size: 240px 240px; animation: drift 95s linear infinite;
+    }
+    @keyframes drift { from{transform:translateY(0)} to{transform:translateY(33.33%)} }
+
+    .wrap { position: relative; z-index: 1; max-width: 480px; margin: 0 auto; padding: 0 24px; }
+    nav { position: relative; z-index: 2; padding: 28px 24px 0; display: flex; justify-content: center; }
+    .nav-logo { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: 14px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--teal-lt); opacity: 0.85; }
+
+    .hero { min-height: 100svh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 80px 24px 60px; position: relative; z-index: 1; }
+    .eyebrow { font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--teal); margin-bottom: 28px; opacity: 0.9; }
+    h1 { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(50px, 11vw, 74px); line-height: 0.95; letter-spacing: -0.02em; margin-bottom: 24px; }
+    h1 em { font-style: italic; color: var(--teal-lt); }
+    .hero-sub { font-size: 16px; font-weight: 300; line-height: 1.65; color: var(--muted); max-width: 360px; margin: 0 auto 14px; }
+    .hero-distinction { font-size: 13px; color: var(--teal); opacity: 0.85; margin-bottom: 36px; font-style: italic; }
+
+    .capture-form { width: 100%; max-width: 400px; margin: 0 auto; }
+    .input-row { display: flex; flex-direction: column; gap: 10px; }
+    .input-row input, .input-row select {
+      width: 100%; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 6px;
+      padding: 15px 18px; font-size: 15px; font-family: 'Inter', sans-serif; font-weight: 300;
+      color: var(--white); outline: none; transition: border-color 0.2s; -webkit-appearance: none; appearance: none; color-scheme: dark;
+    }
+    .input-row input::placeholder { color: var(--muted); }
+    .input-row input:focus { border-color: var(--teal); }
+    .field-hint { font-size: 11px; color: var(--muted); opacity: 0.7; margin-top: -4px; text-align: left; padding: 0 2px; }
+
+    .btn-primary {
+      width: 100%; background: linear-gradient(135deg, #2DD4BF 0%, #7EEAEA 50%, #2DD4BF 100%);
+      background-size: 200% 100%; border: none; border-radius: 6px; padding: 17px 24px;
+      font-size: 14px; font-family: 'Inter', sans-serif; font-weight: 500; letter-spacing: 0.08em;
+      text-transform: uppercase; color: #041414; cursor: pointer; transition: background-position 0.4s;
+    }
+    .btn-primary:hover { background-position: 100% 0; }
+    .form-note { margin-top: 12px; font-size: 12px; color: var(--muted); text-align: center; opacity: 0.65; }
+
+    .section { padding: 64px 24px; position: relative; z-index: 1; }
+    .section-label { font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--teal); text-align: center; margin-bottom: 36px; opacity: 0.8; }
+    h2 { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(36px, 8vw, 52px); line-height: 1.1; text-align: center; margin-bottom: 14px; }
+    h2 em { font-style: italic; color: var(--teal-lt); }
+    .section-sub { font-size: 15px; font-weight: 300; line-height: 1.7; color: var(--muted); text-align: center; max-width: 360px; margin: 0 auto 44px; }
+
+    .types-grid { display: flex; flex-direction: column; gap: 2px; max-width: 480px; margin: 0 auto; }
+    .type-card { padding: 22px 20px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 6px; }
+    .type-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: var(--white); margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
+    .type-pct { font-size: 11px; letter-spacing: 0.1em; color: var(--teal); background: rgba(45,212,191,0.08); border: 1px solid rgba(45,212,191,0.2); border-radius: 20px; padding: 3px 10px; }
+    .type-body { font-size: 14px; font-weight: 300; line-height: 1.6; color: var(--muted); }
+
+    .difference { max-width: 480px; margin: 0 auto; }
+    .diff-row { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+    .diff-cell { padding: 18px; font-size: 14px; font-weight: 300; line-height: 1.55; }
+    .diff-cell.bad { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); color: var(--muted); }
+    .diff-cell.good { background: rgba(45,212,191,0.05); border: 1px solid var(--border); color: var(--white); }
+    .diff-hdr { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 8px; }
+    .diff-hdr.bad { color: rgba(255,255,255,0.25); }
+    .diff-hdr.good { color: var(--teal); }
+
+    .sample-card { max-width: 440px; margin: 0 auto; background: linear-gradient(145deg, rgba(45,212,191,0.07) 0%, rgba(8,11,15,0.95) 100%); border: 1px solid var(--border); border-radius: 12px; padding: 28px 24px; }
+    .profile-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 20px; padding-bottom: 18px; border-bottom: 1px solid var(--border); }
+    .type-badge { background: rgba(45,212,191,0.1); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; text-align: center; flex-shrink: 0; }
+    .badge-type { font-family: 'Cormorant Garamond', serif; font-size: 22px; color: var(--teal-lt); line-height: 1; }
+    .badge-label { font-size: 10px; color: var(--muted); letter-spacing: 0.1em; margin-top: 4px; text-transform: uppercase; }
+    .profile-meta { flex: 1; }
+    .meta-name { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: var(--white); margin-bottom: 4px; }
+    .meta-detail { font-size: 12px; color: var(--muted); }
+    .sample-section { margin-bottom: 16px; }
+    .sample-section-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal); opacity: 0.7; margin-bottom: 8px; }
+    .sample-text { font-size: 14px; font-weight: 300; line-height: 1.7; color: rgba(238,244,244,0.8); font-style: italic; }
+
+    .how-steps { display: flex; flex-direction: column; gap: 2px; max-width: 480px; margin: 0 auto; }
+    .step { display: flex; align-items: flex-start; gap: 20px; padding: 22px 20px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 6px; }
+    .step-num { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 300; color: var(--teal-lt); flex-shrink: 0; line-height: 1; min-width: 24px; }
+    .step-title { font-family: 'Cormorant Garamond', serif; font-size: 19px; color: var(--white); margin-bottom: 5px; }
+    .step-body { font-size: 14px; font-weight: 300; line-height: 1.6; color: var(--muted); }
+
+    .bottom-cta { padding: 80px 24px 100px; text-align: center; position: relative; z-index: 1; }
+    .upgrade-note { margin-top: 28px; padding: 20px; border: 1px solid var(--border); border-radius: 8px; max-width: 400px; margin-left: auto; margin-right: auto; }
+    .upgrade-note p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+    .upgrade-note strong { color: var(--teal-lt); font-weight: 400; }
+    .btn-upgrade { display: inline-block; margin-top: 12px; border: 1px solid rgba(45,212,191,0.35); border-radius: 6px; padding: 12px 24px; font-size: 13px; color: var(--teal-lt); text-decoration: none; transition: all 0.2s; }
+    .btn-upgrade:hover { background: rgba(45,212,191,0.08); border-color: rgba(45,212,191,0.6); }
+
+    footer { padding: 32px 24px; border-top: 1px solid var(--border); text-align: center; position: relative; z-index: 1; }
+    footer p { font-size: 12px; color: var(--muted); opacity: 0.5; }
+
+    .success-msg { display: none; text-align: center; padding: 28px 24px; background: rgba(45,212,191,0.06); border: 1px solid var(--border); border-radius: 8px; }
+    .success-msg .icon { font-size: 32px; margin-bottom: 12px; }
+    .success-msg p { font-size: 15px; color: var(--white); line-height: 1.6; }
+    .success-msg p em { color: var(--teal-lt); font-style: normal; }
+  </style>
+</head>
+<body>
+  <div class="bg-layer"></div>
+  <div class="stars"></div>
+  <nav><span class="nav-logo">Origin AI</span></nav>
+
+  <section class="hero">
+    <div class="eyebrow">Free Human Design Reading</div>
+    <h1>You know your<br />type. Now learn<br /><em>what it means.</em></h1>
+    <p class="hero-sub">Enter your birth details and get a free AI reading of your Human Design — your type, profile, and defined centers explained in plain language that actually applies to your life.</p>
+    <p class="hero-distinction">Existing tools give you a chart. We tell you what to do with it.</p>
+
+    <div class="capture-form">
+      <form id="hero-form" action="https://formspree.io/f/xbdzddyd" method="POST">
+        <div class="input-row">
+          <input type="text" name="name" placeholder="Your first name" required />
+          <input type="date" name="birth_date" required title="Date of birth" />
+          <input type="time" name="birth_time" required title="Time of birth" />
+          <p class="field-hint">Birth time is required for an accurate Human Design chart.</p>
+          <input type="text" name="birth_city" placeholder="City of birth" required />
+          <input type="email" name="email" placeholder="Email — we'll send your reading here" required />
+          <button type="submit" class="btn-primary">Get My Free Reading →</button>
+        </div>
+      </form>
+      <div class="success-msg" id="hero-success">
+        <div class="icon">◈</div>
+        <p>Your Human Design reading is being prepared. Check <em>your inbox</em> in the next few minutes.</p>
+      </div>
+      <p class="form-note">Free. No credit card. Unsubscribe anytime.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-label">The five types</div>
+      <h2>Which one<br /><em>are you?</em></h2>
+      <p class="section-sub">Human Design divides all people into five types. Knowing yours changes how you approach decisions, work, and relationships.</p>
+      <div class="types-grid">
+        <div class="type-card">
+          <div class="type-name">Manifestor <span class="type-pct">9% of people</span></div>
+          <p class="type-body">Built to initiate and create impact. Most powerful when acting independently — but needs to inform others to avoid resistance.</p>
+        </div>
+        <div class="type-card">
+          <div class="type-name">Generator <span class="type-pct">37% of people</span></div>
+          <p class="type-body">Sustained life-force energy. Made to respond, not initiate. Happiest when doing work that genuinely lights them up.</p>
+        </div>
+        <div class="type-card">
+          <div class="type-name">Manifesting Generator <span class="type-pct">33% of people</span></div>
+          <p class="type-body">Fast, multi-passionate, non-linear. The rules don't apply to them the way they apply to others — and that's the point.</p>
+        </div>
+        <div class="type-card">
+          <div class="type-name">Projector <span class="type-pct">20% of people</span></div>
+          <p class="type-body">Here to guide and direct others. Deeply perceptive. Works in short bursts of focused energy — not designed for the 9-to-5 grind.</p>
+        </div>
+        <div class="type-card">
+          <div class="type-name">Reflector <span class="type-pct">1% of people</span></div>
+          <p class="type-body">Deeply sensitive to environment. A mirror for community health. Decisions require a full lunar cycle — 28 days — to land correctly.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-label">The difference</div>
+      <h2>A chart is not<br /><em>a reading.</em></h2>
+      <p class="section-sub">Most HD tools show you the diagram. We translate what it means — in language you can actually use.</p>
+      <div class="difference">
+        <div class="diff-row">
+          <div class="diff-cell bad"><div class="diff-hdr bad">Other tools</div>"You are a 3/5 Projector. Sacral undefined. Solar Plexus defined."</div>
+          <div class="diff-cell good"><div class="diff-hdr good">Origin AI</div>"As a Projector, you aren't built for sustained output — you're built for insight. The reason you feel exhausted by conventional workplaces isn't a personal failing. It's a design mismatch."</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-label">Example reading</div>
+      <div class="sample-card">
+        <div class="profile-header">
+          <div class="type-badge">
+            <div class="badge-type">Projector</div>
+            <div class="badge-label">3 / 5 Profile</div>
+          </div>
+          <div class="profile-meta">
+            <div class="meta-name">Alex R.</div>
+            <div class="meta-detail">Nov 14 · 7:22 AM · Chicago, IL</div>
+          </div>
+        </div>
+        <div class="sample-section">
+          <div class="sample-section-label">Your type — what it actually means</div>
+          <div class="sample-text">"You're not built for sustained output. You're built for concentrated bursts of precision. The reason conventional work environments feel draining isn't a character flaw — it's a design mismatch. Projectors are the guides of the Human Design system: here to see what others can't and direct energy more efficiently. The key is waiting to be invited, not pushing."</div>
+        </div>
+        <div class="sample-section">
+          <div class="sample-section-label">Your 3/5 profile — the Martyr/Heretic</div>
+          <div class="sample-text">"You learn by doing things wrong first. The 3 line is the experimenter — your life is full of 'failures' that are actually data. The 5 line makes people project their expectations onto you before they've even gotten to know you. This is both a gift and a burden."</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-label">How it works</div>
+      <div class="how-steps">
+        <div class="step"><div class="step-num">1</div><div><div class="step-title">Enter your birth details</div><p class="step-body">Date, exact time, and city. Human Design requires precise birth time for an accurate chart.</p></div></div>
+        <div class="step"><div class="step-num">2</div><div><div class="step-title">We calculate your chart</div><p class="step-body">Your type, profile, defined and undefined centers, channels, and gates.</p></div></div>
+        <div class="step"><div class="step-num">3</div><div><div class="step-title">AI writes your reading</div><p class="step-body">Plain English. No jargon. Written for your specific combination, not a generic type description.</p></div></div>
+        <div class="step"><div class="step-num">4</div><div><div class="step-title">Sent to your inbox</div><p class="step-body">Within minutes. Something to come back to.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bottom-cta">
+    <div class="wrap">
+      <div class="section-label">Ready to understand yourself?</div>
+      <h2>Free.<br /><em>Genuinely useful.</em></h2>
+      <p class="section-sub">Enter your birth details. We'll send your Human Design reading to your inbox.</p>
+      <div class="capture-form">
+        <form id="bottom-form" action="https://formspree.io/f/xbdzddyd" method="POST">
+          <div class="input-row">
+            <input type="text" name="name" placeholder="Your first name" required />
+            <input type="date" name="birth_date" required />
+            <input type="time" name="birth_time" required />
+            <p class="field-hint">Birth time required for accurate results.</p>
+            <input type="text" name="birth_city" placeholder="City of birth" required />
+            <input type="email" name="email" placeholder="Email — your reading goes here" required />
+            <button type="submit" class="btn-primary">Get My Free Reading →</button>
+          </div>
+        </form>
+        <div class="success-msg" id="bottom-success">
+          <div class="icon">◈</div>
+          <p>Your Human Design reading is being prepared. Check <em>your inbox</em> in the next few minutes.</p>
+        </div>
+        <p class="form-note">Free. No credit card. Unsubscribe anytime.</p>
+      </div>
+      <div class="upgrade-note">
+        <p>Want the full picture? <strong>Origin Full Report — $12.99</strong> covers every aspect of your chart: all defined centers, your channels, your incarnation cross, and a year-ahead forecast.</p>
+        <a href="REPLACE_WITH_STRIPE_LINK" class="btn-upgrade">Get the Full Report →</a>
+      </div>
+    </div>
+  </section>
+
+  <footer><p>© 2026 Origin AI · Privacy · Unsubscribe</p></footer>
+
+  <script>
+    function handleForm(formId, successId) {
+      const form = document.getElementById(formId);
+      const success = document.getElementById(successId);
+      if (!form) return;
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = form.querySelector('button');
+        btn.textContent = 'Sending…'; btn.disabled = true;
+        try {
+          const res = await fetch(form.action, { method:'POST', body:new FormData(form), headers:{'Accept':'application/json'} });
+          if (res.ok) { form.style.display='none'; success.style.display='block'; }
+          else { btn.textContent='Try again →'; btn.disabled=false; }
+        } catch { btn.textContent='Try again →'; btn.disabled=false; }
+      });
+    }
+    handleForm('hero-form','hero-success');
+    handleForm('bottom-form','bottom-success');
+  </script>
+</body>
+</html>
