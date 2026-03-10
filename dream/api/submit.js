@@ -44,7 +44,7 @@ Format as flowing paragraphs only. Personal, direct, specific to ${name}'s dream
     const interpretation = message.content[0].text;
 
     await resend.emails.send({
-      from: 'Reverie <onboarding@resend.dev>',
+      from: 'Reverie <dreams@mybotpetunia.com>',
       to: email,
       subject: `${name}, your dream interpretation is here 🌙`,
       html: `

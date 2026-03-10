@@ -72,7 +72,7 @@ Format as flowing paragraphs, no headers, no bullet points. Make it feel persona
 
     // Send email
     await resend.emails.send({
-      from: 'Celestia <onboarding@resend.dev>',
+      from: 'Celestia <readings@mybotpetunia.com>',
       to: email,
       subject: `${name}, your birth chart reading is here ✦`,
       html: `
