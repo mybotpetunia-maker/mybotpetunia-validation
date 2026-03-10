@@ -79,7 +79,7 @@ Format as flowing paragraphs only. No headers, no bullet points.`
     const reading = message.content[0].text;
 
     await resend.emails.send({
-      from: 'Origin <readings@mybotpetunia.com>',
+      from: 'Origin <onboarding@resend.dev>',
       to: email,
       subject: `${name}, your Human Design reading is here ◈`,
       html: `
